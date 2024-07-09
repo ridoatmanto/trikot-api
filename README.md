@@ -1,2 +1,5 @@
 # trikot-api
-Trikot Backend API
+_Trikot Backend API_
+
+## API list
+ https://api.trikot.ridoatmanto.com
