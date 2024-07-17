@@ -30,8 +30,58 @@ app.get("/", async (c) => {
     const products = [
       {
         id: 1,
-        name: "BORUSSIA DORTMUND HOME JERSEY",
+        name: "BORUSSIA DORTMUND HOME JERSEY 2024-2025",
         image: "dortmund-jersey-home-2024-2025.png",
+        price: 157000,
+        description:
+          "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+        createdAt: "2024-11-28 15:33:12",
+        updatedAt: "2024-11-28 15:33:12",
+      },
+      {
+        id: 2,
+        name: "BORUSSIA DORTMUND HOME JERSEY 2023-2024",
+        image: "dortmund-jersey-home-2023-2024.png",
+        price: 150000,
+        description:
+          "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+        createdAt: "2024-11-28 15:33:12",
+        updatedAt: "2024-11-28 15:33:12",
+      },
+      {
+        id: 3,
+        name: "BORUSSIA DORTMUND AWAY JERSEY 2024-2025",
+        image: "dortmund-jersey-away-2024-2025.png",
+        price: 127000,
+        description:
+          "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+        createdAt: "2024-11-28 15:33:12",
+        updatedAt: "2024-11-28 15:33:12",
+      },
+      {
+        id: 4,
+        name: "BORUSSIA DORTMUND SHORT JERSEY 2023-2024",
+        image: "dortmund-short-2023-2024.png",
+        price: 107000,
+        description:
+          "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+        createdAt: "2024-11-28 15:33:12",
+        updatedAt: "2024-11-28 15:33:12",
+      },
+      {
+        id: 5,
+        name: "BORUSSIA DORTMUND GOALKEEPER JERSEY 2024-2025",
+        image: "goalkeeper-jersey-2024-2025.png",
+        price: 137000,
+        description:
+          "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+        createdAt: "2024-11-28 15:33:12",
+        updatedAt: "2024-11-28 15:33:12",
+      },
+      {
+        id: 6,
+        name: "BORUSSIA DORTMUND SHORT JERSEY 2024-2025",
+        image: "dortmund-short-2024-2025.png",
         price: 127000,
         description:
           "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
