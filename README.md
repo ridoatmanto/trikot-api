@@ -1,44 +1,48 @@
-# trikot-api
-_Backend API for Trikot (Jersey)_ for Trikot Front End App [https://github.com/ridoatmanto/trikot](https://github.com/ridoatmanto/trikot).
+# Bücherliste (Book List)
+
+Backend API which showing best seller book recommendations to feed your thirsty brain.
 
 ## REST API Specification
 
-- Production: `https://api.trikot.ridoatmanto.com`
+- Production: `https://api.bucherliste.ridoatmanto.com`
 - Local: `http://localhost:3000`
 
-### Orders API
+### Books API
 
-| Endpoint  | HTTP   | Description    |
-| --------- | ------ | -------------- |
-| `/orders` | `GET`  | Get all orders |
-| `/orders` | `POST` | Add new order  |
+| Endpoint           | HTTP     | Description       |
+| ------------------ | -------- | ----------------- |
+| `/books`           | `GET`    | Get all books     |
+| `/books?q=:search` | `GET`    | Search books      |
+| `/books/:id`       | `GET`    | Get book by id    |
+| `/books`           | `POST`   | Add new book      |
+| `/books/:id`       | `DELETE` | Delete book by id |
+| `/books/:id`       | `PUT`    | Update book by id |
 
-### Carts API
+### Authors API
 
-| Endpoint     | HTTP     | Description       |
-| ------------ | -------- | ----------------- |
-| `/carts`     | `GET`    | Get all carts     |
-| `/carts`     | `POST`   | Add new cart      |
-| `/carts/:id` | `DELETE` | Delete cart by id |
-| `/carts/:id` | `PUT`    | Update cart by id |
+| Endpoint             | HTTP     | Description         |
+| -------------------- | -------- | ------------------- |
+| `/authors`           | `GET`    | Get all books       |
+| `/authors?q=:search` | `GET`    | Search authors      |
+| `/authors/:id`       | `GET`    | Get author by id    |
+| `/authors`           | `POST`   | Add new author      |
+| `/authors/:id`       | `DELETE` | Delete author by id |
+| `/authors/:id`       | `PUT`    | Update author by id |
 
-### Products API
+### Book Authors API
 
-| Endpoint        | HTTP  | Description       |
-| --------------- | ----- | ----------------- |
-| `/products`     | `GET` | Get all products  |
-| `/products/:id` | `GET` | Get product by id |
-
-### Users API
-
-| Endpoint  | HTTP   | Description                                           |
-| --------- | ------ | ----------------------------------------------------- |
-| `/login`  | `POST` | Logged in into application <br/> with email& password |
-| `/logout` | `GET`  | Loggged out from application                          |
+| Endpoint                  | HTTP     | Description               |
+| ------------------------- | -------- | ------------------------- |
+| `/book-authors`           | `GET`    | Get all book authors      |
+| `/book-authors?q=:search` | `GET`    | Search book authors       |
+| `/book-authors/:id`       | `GET`    | Get book authors by id    |
+| `/book-authors`           | `POST`   | Add new book authors      |
+| `/book-authors/:id`       | `DELETE` | Delete book authors by id |
+| `/book-authors/:id`       | `PUT`    | Update book authors by id |
 
 ## ERD
 
-![ERD](./assets/trikot-erd.svg)
+![ERD](./assets/bucherliste-erd.svg)
 
 ## Tech Stack
 
@@ -86,7 +90,7 @@ docker compose up -d
 
 ## Sample JSON output preview:
 
-### Product List
+### Book List
 
 ```json
 [
@@ -107,6 +111,59 @@ docker compose up -d
     "cover": "sales-funnel-sabotage.png",
     "createdAt": "2024-06-26T09:36:40.681Z",
     "updatedAt": "2024-06-26T09:36:40.681Z"
+  }
+]
+```
+
+### Author List
+
+```json
+[
+  {
+    "id": "author-1",
+    "name": "Perry Marshall",
+    "createdAt": "2024-06-26T09:36:40.696Z",
+    "updatedAt": "2024-06-26T09:36:40.696Z"
+  },
+  {
+    "id": "author-2",
+    "name": "Richard Koch",
+    "createdAt": "2024-06-26T09:36:40.696Z",
+    "updatedAt": "2024-06-26T09:36:40.696Z"
+  },
+  {
+    "id": "author-3",
+    "name": "Miles Beckler",
+    "createdAt": "2024-06-26T09:36:40.696Z",
+    "updatedAt": "2024-06-26T09:36:40.696Z"
+  }
+]
+```
+
+### Book Author List
+
+```json
+[
+  {
+    "id": "clxvn5gqk0000b9zblboqkv4u",
+    "bookId": "book-1",
+    "authorId": "author-1",
+    "createdAt": "2024-06-26T09:36:40.700Z",
+    "updatedAt": "2024-06-26T09:36:40.700Z"
+  },
+  {
+    "id": "clxvn5gqk0001b9zby23969p0",
+    "bookId": "book-1",
+    "authorId": "author-2",
+    "createdAt": "2024-06-26T09:36:40.700Z",
+    "updatedAt": "2024-06-26T09:36:40.700Z"
+  },
+  {
+    "id": "clxvn5gqk0002b9zbdaid4ipx",
+    "bookId": "book-2",
+    "authorId": "author-3",
+    "createdAt": "2024-06-26T09:36:40.700Z",
+    "updatedAt": "2024-06-26T09:36:40.700Z"
   }
 ]
 ```

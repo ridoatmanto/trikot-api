@@ -1,0 +1,39 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+  binaryTargets   = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id           String       @id @default(cuid())
+  title        String       @db.VarChar(255)
+  description  String       @db.Text
+  published    String
+  cover        String
+  book_authors BookAuthor[]
+  created_at   DateTime     @default(now())
+  updated_at   DateTime     @updatedAt
+}
+
+model Author {
+  id           String       @id @default(cuid())
+  name         String       @db.Text
+  book_authors BookAuthor[]
+  created_at   DateTime     @default(now())
+  updated_at   DateTime     @updatedAt
+}
+
+model BookAuthor {
+  id         String   @id @default(cuid())
+  book_id    String
+  book       Book     @relation(fields: [book_id], references: [id], onDelete: Cascade)
+  author_id  String
+  author     Author   @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
