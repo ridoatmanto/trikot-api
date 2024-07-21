@@ -12,7 +12,7 @@ const productList = [
     slug: "dortmund-jersey-home-2024-2025",
     price: 157000,
     description:
-      "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+      "<ul><li>From kit supplier PUMA.</li><li>Puma cat and BVB emblem on the chest.</li><li>100% polyester 95 % recycled polyester thanks to Puma's RE:FIBRE process.</li><li>Flocked jerseys are delivered with GLS logo.</li></ul>",
     createdAt: "2024-11-28 15:33:12",
     updatedAt: "2024-11-28 15:33:12",
   },
@@ -23,7 +23,7 @@ const productList = [
     slug: "dortmund-jersey-home-2023-2024",
     price: 150000,
     description:
-      "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+      "<ul><li>From kit supplier PUMA.</li><li>Puma cat and BVB emblem on the chest.</li><li>100% polyester 95 % recycled polyester thanks to Puma's RE:FIBRE process.</li><li>Flocked jerseys are delivered with GLS logo.</li></ul>",
     createdAt: "2024-11-28 15:33:12",
     updatedAt: "2024-11-28 15:33:12",
   },
@@ -34,7 +34,7 @@ const productList = [
     slug: "dortmund-jersey-away-2024-2025",
     price: 127000,
     description:
-      "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+      "<ul><li>From kit supplier PUMA.</li><li>Puma cat and BVB emblem on the chest.</li><li>100% polyester 95 % recycled polyester thanks to Puma's RE:FIBRE process.</li><li>Flocked jerseys are delivered with GLS logo.</li></ul>",
     createdAt: "2024-11-28 15:33:12",
     updatedAt: "2024-11-28 15:33:12",
   },
@@ -45,7 +45,7 @@ const productList = [
     slug: "dortmund-short-2023-2024",
     price: 107000,
     description:
-      "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+      "<ul><li>From kit supplier PUMA.</li><li>Puma cat and BVB emblem on the chest.</li><li>100% polyester 95 % recycled polyester thanks to Puma's RE:FIBRE process.</li><li>Flocked jerseys are delivered with GLS logo.</li></ul>",
     createdAt: "2024-11-28 15:33:12",
     updatedAt: "2024-11-28 15:33:12",
   },
@@ -56,7 +56,7 @@ const productList = [
     slug: "goalkeeper-jersey-2024-2025",
     price: 137000,
     description:
-      "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+      "<ul><li>From kit supplier PUMA.</li><li>Puma cat and BVB emblem on the chest.</li><li>100% polyester 95 % recycled polyester thanks to Puma's RE:FIBRE process.</li><li>Flocked jerseys are delivered with GLS logo.</li></ul>",
     createdAt: "2024-11-28 15:33:12",
     updatedAt: "2024-11-28 15:33:12",
   },
@@ -67,7 +67,7 @@ const productList = [
     slug: "dortmund-short-2024-2025",
     price: 127000,
     description:
-      "From kit supplier PUMA\nPuma cat and BVB emblem on the chest\n100% polyester\n95 % recycled polyester thanks to Puma's RE:FIBRE process\nFlocked jerseys are delivered with GLS logo.",
+      "<ul><li>From kit supplier PUMA.</li><li>Puma cat and BVB emblem on the chest.</li><li>100% polyester 95 % recycled polyester thanks to Puma's RE:FIBRE process.</li><li>Flocked jerseys are delivered with GLS logo.</li></ul>",
     createdAt: "2024-11-28 15:33:12",
     updatedAt: "2024-11-28 15:33:12",
   },
