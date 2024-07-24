@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "@prisma/client": "5.15.1",
+    "esbuild-linux-64": "^0.15.18",
     "hono": "^4.4.4",
-    "prisma": "^5.15.1"
+    "prisma": "^5.17.0"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^20.14.8",
-    "tsx": "^4.16.0",
+    "tsx": "^4.16.2",
     "typescript": "^5.5.2"
   },
   "prisma": {

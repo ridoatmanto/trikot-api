@@ -1,0 +1,47 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+  binaryTargets   = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id           String         @id @default(cuid())
+  name         String         @db.VarChar(255)
+  imageURL     String         @db.VarChar(255)
+  slug         String         @db.VarChar(255)
+  price        BigInt
+  description  String         @db.Text
+  carts        Cart[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  ProductStock ProductStock[]
+}
+
+model Cart {
+  id            String  @id @default(cuid())
+  productId     String
+  product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name          String  @db.VarChar(255)
+  imageURL      String  @db.VarChar(255)
+  price         BigInt
+  quantity      Int
+  subTotalprice BigInt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductStock {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  stock     Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
