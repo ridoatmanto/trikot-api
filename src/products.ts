@@ -5,33 +5,41 @@ import { escapeBigInt } from "./libs/escapeBigInt";
 
 const app = new Hono();
 
+// app.get("/", async (c) => {
+//   try {
+//     const searchQuery = c.req.query("q");
+
+//     if (!searchQuery) {
+//       const allProducts = await prisma.product.findMany({
+//         where: {},
+//         orderBy: [{ createdAt: "desc" }],
+//       });
+
+//       return c.json(escapeBigInt(allProducts));
+//     }
+
+//     const searchProduct = await prisma.product.findMany({
+//       where: {
+//         name: {
+//           contains: searchQuery,
+//           mode: "insensitive",
+//         },
+//       },
+//     });
+
+//     return c.json(escapeBigInt(searchProduct));
+//   } catch (err: any) {
+//     console.log(err.message);
+//     throw new HTTPException(401, { message: err.message });
+//   }
+// });
 app.get("/", async (c) => {
-  try {
-    const searchQuery = c.req.query("q");
+  const products = await prisma.product.findMany({
+    where: {},
+    orderBy: [{ createdAt: "desc" }],
+  });
 
-    if (!searchQuery) {
-      const allProducts = await prisma.product.findMany({
-        where: {},
-        orderBy: [{ createdAt: "desc" }],
-      });
-
-      return c.json(escapeBigInt(allProducts));
-    }
-
-    const searchProduct = await prisma.product.findMany({
-      where: {
-        name: {
-          contains: searchQuery,
-          mode: "insensitive",
-        },
-      },
-    });
-
-    return c.json(escapeBigInt(searchProduct));
-  } catch (err: any) {
-    console.log(err.message);
-    throw new HTTPException(401, { message: err.message });
-  }
+  return c.json(escapeBigInt(products));
 });
 
 app.get("/:slug", async (c) => {
