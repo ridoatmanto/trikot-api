@@ -9,7 +9,7 @@
     "db:seed": "prisma db seed"
   },
   "dependencies": {
-    "@prisma/client": "5.15.1",
+    "@prisma/client": "5.17.0",
     "esbuild-linux-64": "^0.15.18",
     "hono": "^4.4.4",
     "prisma": "^5.17.0"
