@@ -30,20 +30,21 @@ app.get("/", async (c) => {
     return c.json(escapeBigInt(searchProduct));
   } catch (err: any) {
     console.log(err.message);
+    throw new HTTPException(401, { message: err.message });
   }
 });
 
-app.get("/:id", async (c) => {
+app.get("/:slug", async (c) => {
   try {
-    const paramId = c.req.param("id");
+    const slugParam = c.req.param("slug");
 
-    if (!paramId) {
+    if (!slugParam) {
       c.status(204);
       return c.json({ message: "Product ID needed" });
     }
 
-    const product = await prisma.product.findUnique({
-      where: { id: paramId },
+    const product = await prisma.product.findFirst({
+      where: { slug: slugParam },
     });
 
     if (product == null) {
