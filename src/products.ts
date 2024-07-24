@@ -34,10 +34,7 @@ const app = new Hono();
 //   }
 // });
 app.get("/", async (c) => {
-  const products = await prisma.product.findMany({
-    where: {},
-    orderBy: [{ createdAt: "desc" }],
-  });
+  const products = await prisma.product.findMany();
 
   return c.json(escapeBigInt(products));
 });
