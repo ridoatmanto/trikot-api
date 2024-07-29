@@ -1,62 +1,130 @@
 import { Hono } from "hono";
+import { zValidator } from "@hono/zod-validator";
+
+import { z } from "zod";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "../libs/prisma";
 import { escapeBigInt } from "../libs/escape-big-int";
+import { checkUserToken } from "../middlewares/check-user-token";
 
 const app = new Hono();
 
-app.get("/", async (c) => {
+app.get("/", checkUserToken(), async (c) => {
+  const user = c.get("user");
+
+  const existingCart = await prisma.cart.findFirst({
+    where: { userId: user.id },
+    orderBy: { createdAt: "desc" },
+    include: { items: { include: { product: true } } },
+  });
+
+  if (!existingCart) {
+    const newCart = await prisma.cart.create({
+      data: { userId: user.id },
+      include: { items: { include: { product: true } } },
+    });
+
+    return c.json({
+      message: "Shopping cart data",
+      cart: newCart,
+    });
+  }
+
+  return c.json({
+    message: "Shopping cart data",
+    cart: escapeBigInt(existingCart),
+  });
+});
+
+app.delete("/", checkUserToken(), async (c) => {
+  const user = c.get("user");
+
   try {
-    const searchQuery = c.req.query("q");
+    const existingCart = await prisma.cart.findFirst({
+      where: { userId: user.id },
+    });
 
-    if (!searchQuery) {
-      const allProducts = await prisma.product.findMany({
-        where: {},
-        orderBy: [{ createdAt: "desc" }],
-      });
+    const deleteCartItems = await prisma.cartItem.deleteMany({
+      where: { cartId: existingCart?.id },
+    });
 
-      return c.json(escapeBigInt(allProducts));
+    return c.json({
+      message: "Shopping cart has cleared!",
+      cart: deleteCartItems,
+    });
+  } catch (err: any) {
+    console.log(err.message);
+    throw new HTTPException(401, { message: err.message });
+  }
+});
+
+app.post(
+  "/add",
+  checkUserToken(),
+  zValidator(
+    "json",
+    z.object({
+      productId: z.string(),
+      quantity: z.number().min(1),
+    })
+  ),
+  async (c) => {
+    const user = c.get("user");
+    const body = c.req.valid("json");
+
+    const existingCart = await prisma.cart.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!existingCart) {
+      c.status(404);
+      return c.json({ message: "Shopping cart is unavailable" });
     }
 
-    const searchProduct = await prisma.product.findMany({
+    const checkCartItem = await prisma.cartItem.findFirst({
       where: {
-        name: {
-          contains: searchQuery,
-          mode: "insensitive",
-        },
+        productId: body.productId,
+        cartId: existingCart.id,
       },
     });
 
-    return c.json(escapeBigInt(searchProduct));
-  } catch (err: any) {
-    console.log(err.message);
-    throw new HTTPException(401, { message: err.message });
-  }
-});
+    if (checkCartItem) {
+      const updatedCart = await prisma.cartItem.update({
+        where: {
+          id: checkCartItem.id,
+        },
+        data: {
+          quantity: checkCartItem.quantity + body.quantity,
+        },
+      });
 
-app.get("/:slug", async (c) => {
-  try {
-    const slugParam = c.req.param("slug");
+      return c.json({
+        message: "Cart updated!",
+        cart: updatedCart,
+      });
+    } else {
+      const updatedCart = await prisma.cart.update({
+        where: { id: existingCart.id },
+        data: {
+          items: {
+            create: {
+              productId: body.productId,
+              quantity: body.quantity,
+            },
+          },
+        },
+        include: {
+          items: true,
+        },
+      });
 
-    if (!slugParam) {
-      c.status(204);
-      return c.json({ message: "Product ID needed" });
+      return c.json({
+        message: "Product added to the cart!",
+        cart: updatedCart,
+      });
     }
-
-    const product = await prisma.product.findFirst({
-      where: { slug: slugParam },
-    });
-
-    if (product == null) {
-      c.status(204);
-      return c.json({ message: "Product doesn't exists!" });
-    }
-
-    return c.json(escapeBigInt(product));
-  } catch (err: any) {
-    console.log(err.message);
-    throw new HTTPException(401, { message: err.message });
   }
-});
+);
 
 export const carts = app;
