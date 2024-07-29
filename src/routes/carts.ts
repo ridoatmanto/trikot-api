@@ -58,6 +58,51 @@ app.delete("/", checkUserToken(), async (c) => {
   }
 });
 
+app.delete("/:productId", checkUserToken(), async (c) => {
+  const productId = c.req.param("productId");
+
+  try {
+    const deleteCartItems = await prisma.cartItem.deleteMany({
+      where: { productId: productId },
+    });
+
+    return c.json({
+      message: "Product deleted from carts!",
+      cart: deleteCartItems,
+    });
+  } catch (err: any) {
+    console.log(err.message);
+    throw new HTTPException(401, { message: err.message });
+  }
+});
+
+app.delete("/:id", async (c) => {
+  const paramId = c.req.param("id");
+
+  try {
+    if (!paramId) {
+      c.status(204);
+      return c.json({ message: "Author ID needed" });
+    }
+
+    const deletedAuthor = await prisma.author.deleteMany({
+      where: { id: paramId },
+    });
+
+    if (deletedAuthor == null) {
+      c.status(204);
+      return c.json({ message: "Book doesn't exists!" });
+    }
+
+    return c.json({
+      message: `Author with ID: '${paramId}' has been deleted!`,
+      deletedBook: deletedAuthor,
+    });
+  } catch (err: any) {
+    console.log(err.message);
+    throw new HTTPException(401, { message: err.message });
+  }
+});
 app.post(
   "/add",
   checkUserToken(),
