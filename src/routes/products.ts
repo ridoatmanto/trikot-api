@@ -1,9 +1,8 @@
-import { Hono } from "hono";
+import { app } from "../libs/app";
+
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "../libs/prisma";
 import { escapeBigInt } from "../libs/escape-big-int";
-
-const app = new Hono();
 
 app.get("/", async (c) => {
   try {

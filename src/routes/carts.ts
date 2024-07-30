@@ -1,13 +1,11 @@
-import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 
 import { z } from "zod";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "../libs/prisma";
+import { app } from "../libs/app";
 import { escapeBigInt } from "../libs/escape-big-int";
 import { checkUserToken } from "../middlewares/check-user-token";
-
-const app = new Hono();
 
 app.get("/", checkUserToken(), async (c) => {
   const user = c.get("user");
@@ -76,35 +74,8 @@ app.delete("/:productId", checkUserToken(), async (c) => {
   }
 });
 
-app.delete("/:id", async (c) => {
-  const paramId = c.req.param("id");
-
-  try {
-    if (!paramId) {
-      c.status(204);
-      return c.json({ message: "Author ID needed" });
-    }
-
-    const deletedAuthor = await prisma.author.deleteMany({
-      where: { id: paramId },
-    });
-
-    if (deletedAuthor == null) {
-      c.status(204);
-      return c.json({ message: "Book doesn't exists!" });
-    }
-
-    return c.json({
-      message: `Author with ID: '${paramId}' has been deleted!`,
-      deletedBook: deletedAuthor,
-    });
-  } catch (err: any) {
-    console.log(err.message);
-    throw new HTTPException(401, { message: err.message });
-  }
-});
 app.post(
-  "/add",
+  "/",
   checkUserToken(),
   zValidator(
     "json",
