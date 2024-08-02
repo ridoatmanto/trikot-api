@@ -3,9 +3,11 @@ import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { HTTPException } from "hono/http-exception";
 import { prisma } from "../libs/prisma";
-import { app } from "../libs/app";
+import { Hono } from "hono";
 import { escapeBigInt } from "../libs/escape-big-int";
 import { checkUserToken } from "../middlewares/check-user-token";
+
+const app = new Hono();
 
 app.get("/", checkUserToken(), async (c) => {
   const user = c.get("user");
@@ -56,12 +58,12 @@ app.delete("/", checkUserToken(), async (c) => {
   }
 });
 
-app.delete("/:productId", checkUserToken(), async (c) => {
-  const productId = c.req.param("productId");
+app.delete("/:cartItemId", checkUserToken(), async (c) => {
+  const cartItemId = c.req.param("cartItemId");
 
   try {
     const deleteCartItems = await prisma.cartItem.deleteMany({
-      where: { productId: productId },
+      where: { id: cartItemId },
     });
 
     return c.json({

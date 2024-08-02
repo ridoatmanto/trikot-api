@@ -2,10 +2,12 @@ import { zValidator } from "@hono/zod-validator";
 
 import { z } from "zod";
 import { prisma } from "../libs/prisma";
-import { app } from "../libs/app";
+import { Hono } from "hono";
 import { createToken } from "../libs/jwt";
 import { checkUserToken } from "../middlewares/check-user-token";
 import { verifyPassword } from "../libs/password";
+
+const app = new Hono();
 
 app.post(
   "/login",

@@ -9,10 +9,16 @@ Trikot Jersey Backend
 
 ### Books API
 
-| Endpoint        | HTTP  | Description        |
-| --------------- | ----- | ------------------ |
-| `/products`     | `GET` | Get all product    |
-| `/products/:id` | `GET` | Get products by id |
+| Endpoint            | HTTP     | Description                  |
+| ------------------- | -------- | ---------------------------- |
+| `/products`         | `GET`    | Get all product              |
+| `/products/:id`     | `GET`    | Get products by id           |
+| `/carts`            | `POST`   | Add cart                     |
+| `/carts/:productId` | `DELETE` | Delete product from cart     |
+| `/carts`            | `DELETE` | Delete All product from cart |
+| `/auth/login`       | `POST`   | Login user                   |
+| `/auth/me`          | `GET`    | Get user                     |
+| `/auth/logout`      | `GET`    | Logout user                  |
 
 ## ERD
 
