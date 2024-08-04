@@ -21,7 +21,14 @@ app.get("/", checkUserToken(), async (c) => {
   if (!existingCart) {
     const newCart = await prisma.cart.create({
       data: { userId: user.id },
-      include: { items: { include: { product: true } } },
+      include: {
+        items: {
+          include: { product: true },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
     });
 
     return c.json({
@@ -48,6 +55,15 @@ app.delete("/", checkUserToken(), async (c) => {
       where: { cartId: existingCart?.id },
     });
 
+    const emptyPrice = await prisma.cart.update({
+      where: {
+        id: existingCart.id,
+      },
+      data: {
+        totalCartPrice: 0,
+      },
+    });
+
     return c.json({
       message: "Shopping cart has cleared!",
       cart: deleteCartItems,
@@ -62,9 +78,32 @@ app.delete("/:cartItemId", checkUserToken(), async (c) => {
   const cartItemId = c.req.param("cartItemId");
 
   try {
+    const cartItem = await prisma.cartItem.findFirst({
+      where: { id: cartItemId },
+    });
+
     const deleteCartItems = await prisma.cartItem.deleteMany({
       where: { id: cartItemId },
     });
+
+    let latestTotal = 0;
+
+    const cartItems = await prisma.cartItem.findMany({
+      where: { cartId: cartItem?.cartId },
+    });
+    cartItems.forEach((item) => {
+      latestTotal += item.totalItemPrice;
+    });
+
+    const updatePrice = await prisma.cart.update({
+      where: {
+        id: cartItem?.cartId,
+      },
+      data: {
+        totalCartPrice: latestTotal,
+      },
+    });
+    console.log(updatePrice);
 
     return c.json({
       message: "Product deleted from carts!",
@@ -107,15 +146,41 @@ app.post(
       },
     });
 
+    const product = await prisma.product.findFirst({
+      where: { id: body.productId },
+    });
+
     if (checkCartItem) {
+      const totalItemPrice =
+        (checkCartItem.quantity + parseInt(body.quantity)) * product?.price;
       const updatedCart = await prisma.cartItem.update({
         where: {
           id: checkCartItem.id,
         },
         data: {
           quantity: checkCartItem.quantity + body.quantity,
+          totalItemPrice: totalItemPrice,
         },
       });
+
+      let latestTotal = 0;
+
+      const cartItems = await prisma.cartItem.findMany({
+        where: { cartId: existingCart.id },
+      });
+      cartItems.forEach((item) => {
+        latestTotal += item.totalItemPrice;
+      });
+
+      const updatePrice = await prisma.cart.update({
+        where: {
+          id: existingCart.id,
+        },
+        data: {
+          totalCartPrice: latestTotal,
+        },
+      });
+      console.log(updatePrice);
 
       return c.json({
         message: "Cart updated!",
@@ -129,6 +194,7 @@ app.post(
             create: {
               productId: body.productId,
               quantity: body.quantity,
+              totalItemPrice: body.quantity * product?.price,
             },
           },
         },
@@ -136,6 +202,25 @@ app.post(
           items: true,
         },
       });
+
+      let latestTotal = 0;
+
+      const cartItems = await prisma.cartItem.findMany({
+        where: { cartId: existingCart.id },
+      });
+      cartItems.forEach((item) => {
+        latestTotal += item.totalItemPrice;
+      });
+
+      const updatePrice = await prisma.cart.update({
+        where: {
+          id: existingCart.id,
+        },
+        data: {
+          totalCartPrice: latestTotal,
+        },
+      });
+      console.log(updatePrice);
 
       return c.json({
         message: "Product added to the cart!",
