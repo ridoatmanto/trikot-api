@@ -152,7 +152,7 @@ app.post(
 
     if (checkCartItem) {
       const totalItemPrice =
-        (checkCartItem.quantity + parseInt(body.quantity)) * product?.price;
+        (checkCartItem.quantity + body.quantity) * product?.price;
       const updatedCart = await prisma.cartItem.update({
         where: {
           id: checkCartItem.id,
