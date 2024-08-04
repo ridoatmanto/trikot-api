@@ -152,7 +152,7 @@ app.post(
 
     if (checkCartItem) {
       const totalItemPrice =
-        (checkCartItem.quantity + parseInt(body.quantity)) * product?.price;
+        (checkCartItem.quantity + body.quantity) * product?.price;
       const updatedCart = await prisma.cartItem.update({
         where: {
           id: checkCartItem.id,
@@ -163,13 +163,13 @@ app.post(
         },
       });
 
-      let latestTotal = 0;
+      let latestItemTotal = 0;
 
       const cartItems = await prisma.cartItem.findMany({
         where: { cartId: existingCart.id },
       });
       cartItems.forEach((item) => {
-        latestTotal += item.totalItemPrice;
+        latestItemTotal += item.totalItemPrice;
       });
 
       const updatePrice = await prisma.cart.update({
@@ -177,7 +177,7 @@ app.post(
           id: existingCart.id,
         },
         data: {
-          totalCartPrice: latestTotal,
+          totalCartPrice: latestItemTotal,
         },
       });
       console.log(updatePrice);
@@ -187,7 +187,7 @@ app.post(
         cart: updatedCart,
       });
     } else {
-      let latestTotal = body.quantity * product?.price;
+      let latestItemTotal = body.quantity * product?.price;
       const updatedCart = await prisma.cart.update({
         where: { id: existingCart.id },
         data: {
@@ -195,7 +195,7 @@ app.post(
             create: {
               productId: body.productId,
               quantity: body.quantity,
-              totalItemPrice: latestTotal,
+              totalItemPrice: latestItemTotal,
             },
           },
         },
