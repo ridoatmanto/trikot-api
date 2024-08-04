@@ -187,6 +187,7 @@ app.post(
         cart: updatedCart,
       });
     } else {
+      let latestTotal = body.quantity * product?.price;
       const updatedCart = await prisma.cart.update({
         where: { id: existingCart.id },
         data: {
@@ -194,7 +195,7 @@ app.post(
             create: {
               productId: body.productId,
               quantity: body.quantity,
-              totalItemPrice: body.quantity * product?.price,
+              totalItemPrice: latestTotal,
             },
           },
         },
