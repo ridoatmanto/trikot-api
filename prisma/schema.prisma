@@ -14,7 +14,7 @@ model Product {
   name         String         @unique @db.VarChar(255)
   imageURL     String         @db.VarChar(255)
   slug         String         @unique @db.VarChar(255)
-  price        BigInt
+  price        Int
   description  String         @db.Text
   sku          String         @unique // code for scanning product
   cartItems    CartItem[]
@@ -25,22 +25,24 @@ model Product {
 }
 
 model Cart {
-  id     String     @id @default(cuid())
-  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  items  CartItem[]
+  id             String     @id @default(cuid())
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  items          CartItem[]
+  totalCartPrice Int        @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model CartItem {
-  id        String  @id @default(cuid())
-  product   Product @relation(fields: [productId], references: [id])
-  productId String
-  quantity  Int     @default(1)
-  cart      Cart    @relation(fields: [cartId], references: [id])
-  cartId    String
+  id             String  @id @default(cuid())
+  product        Product @relation(fields: [productId], references: [id])
+  productId      String
+  quantity       Int     @default(1)
+  totalItemPrice Int     @default(0)
+  cart           Cart    @relation(fields: [cartId], references: [id])
+  cartId         String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
